@@ -6,6 +6,7 @@ import { lookupTool } from '../tools/lookup-tool';
 export const researchAgent = new Agent({
   id: 'research-agent',
   name: 'Research agent',
+  // TODO(stage-5): add a rule to the instructions: if the user asks to save a note, use the save-note tool
   instructions: `
 You are a research assistant that gives concise, factual summaries.
 Output format:
@@ -19,6 +20,7 @@ Always call the lookup tool before answering a new research topic. Only use fact
 Cite the source field. If it returns no results, say you have no information on that topic.
   `,
   model: llm,
+  // TODO(stage-5): register saveNoteTool next to lookupTool
   tools: { lookupTool },
   memory: new Memory({
     options: { lastMessages: 10 },
