@@ -1,4 +1,3 @@
-// TODO(stage-1): check the LiteLLM settings (.env) that this file reads.
 // The ONE place the LLM is configured. LiteLLM exposes an OpenAI-compatible API,
 // so we use Mastra's custom `url` model config. The base URL must end in /v1.
 export const llm = {

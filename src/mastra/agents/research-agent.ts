@@ -4,7 +4,7 @@ import { llm } from '../model';
 export const researchAgent = new Agent({
   id: 'research-agent',
   name: 'Research agent',
-  // TODO(stage-1): write the instructions: role, output format (title, 3-5 bullets, one-line conclusion, sources list) and the 150-word limit
+  // TODO(stage-2): add tool rules to the instructions: always call the lookup tool first, use only its facts, cite the source field, say so if nothing is found
   instructions: `
 You are a research assistant that gives concise, factual summaries.
 Output format:
@@ -15,4 +15,6 @@ Output format:
 Keep the summary under 150 words.
   `,
   model: llm,
+  // TODO(stage-2): register the tools: import lookupTool and add it to `tools`
+  tools: {},
 });
