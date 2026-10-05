@@ -16,7 +16,6 @@ export const mastra = new Mastra({
     externals: ['@duckdb/node-bindings'],
   },
   agents: { researchAgent },
-  // TODO(stage-4): register the workflow
   workflows: { researchWorkflow },
   storage: new MastraCompositeStore({
     id: 'composite-storage',

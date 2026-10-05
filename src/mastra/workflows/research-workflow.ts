@@ -22,6 +22,30 @@ const planStep = createStep({
   },
 });
 
+// TODO(stage-5): add this approval step (suspend, then resume with the human's answer).
+// Human-in-the-loop: the workflow SUSPENDS here until a person approves (or edits) the plan.
+const approvePlanStep = createStep({
+  id: 'approve-plan',
+  inputSchema: z.object({ topic: z.string(), questions: z.array(z.string()) }),
+  outputSchema: z.object({ topic: z.string(), questions: z.array(z.string()) }),
+  suspendSchema: z.object({ topic: z.string(), questions: z.array(z.string()) }),
+  resumeSchema: z.object({
+    approved: z.boolean(),
+    questions: z.array(z.string()).optional().describe('Optional edited sub-questions'),
+  }),
+  execute: async ({ inputData, resumeData, suspend, bail }) => {
+    // First pass: no human answer yet, so pause and show the plan to the reviewer.
+    if (!resumeData) {
+      return await suspend({ topic: inputData.topic, questions: inputData.questions });
+    }
+    // Resumed: the human said no, so end the run early.
+    if (!resumeData.approved) {
+      return bail({ summary: 'Research cancelled: the plan was rejected.' }) as never;
+    }
+    return { topic: inputData.topic, questions: resumeData.questions ?? inputData.questions };
+  },
+});
+
 const gatherStep = createStep({
   id: 'gather',
   inputSchema: z.object({ topic: z.string(), questions: z.array(z.string()) }),
@@ -54,13 +78,13 @@ const writeStep = createStep({
   },
 });
 
-// TODO(stage-4): chain the three steps
 export const researchWorkflow = createWorkflow({
   id: 'research-workflow',
   inputSchema: z.object({ topic: z.string() }),
   outputSchema: z.object({ summary: z.string() }),
 })
   .then(planStep)
+  .then(approvePlanStep) // TODO(stage-5): chain the approval step
   .then(gatherStep)
   .then(writeStep)
   .commit();
