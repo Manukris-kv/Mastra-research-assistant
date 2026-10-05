@@ -20,6 +20,7 @@
   "dependencies": {
     "@mastra/core": "1.74.0",
     "@mastra/duckdb": "1.12.1",
+    "@mastra/evals": "1.10.5",
     "@mastra/libsql": "1.25.0",
     "@mastra/memory": "1.35.0",
     "@mastra/observability": "1.18.3",

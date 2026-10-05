@@ -7,7 +7,6 @@ import { saveNoteTool } from '../tools/save-note-tool';
 export const researchAgent = new Agent({
   id: 'research-agent',
   name: 'Research agent',
-  // TODO(stage-5): add a rule to the instructions: if the user asks to save a note, use the save-note tool
   instructions: `
 You are a research assistant that gives concise, factual summaries.
 Output format:
@@ -22,9 +21,9 @@ Cite the source field. If it returns no results, say you have no information on 
 If the user asks you to save a note, use the save-note tool.
   `,
   model: llm,
-  // TODO(stage-5): register saveNoteTool next to lookupTool
   tools: { lookupTool, saveNoteTool },
   memory: new Memory({
     options: { lastMessages: 10 },
   }),
+  // TODO(stage-6): attach a built-in scorer: createAnswerRelevancyScorer({ model: llm }) from '@mastra/evals/scorers/prebuilt', sampling { type: 'ratio', rate: 1 }. Results appear under Scorers in Studio
 });

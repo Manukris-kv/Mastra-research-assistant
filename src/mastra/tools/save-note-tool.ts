@@ -3,13 +3,11 @@ import { z } from 'zod';
 import { mkdir, appendFile } from 'node:fs/promises';
 import path from 'node:path';
 
-// TODO(stage-5): the save-note tool is new in this stage.
 // Optional stretch goal: a tool with a real side effect (writes to a file).
 export const saveNoteTool = createTool({
   id: 'save-note',
   description:
     'Save a short research note to disk when the user explicitly asks to save or remember a note. Do not call it otherwise.',
-  // TODO(stage-5): Human-in-the-loop: the agent pauses and waits for approval before the file is written.
   requireApproval: true,
   inputSchema: z.object({
     topic: z.string().describe('Topic the note is about'),
