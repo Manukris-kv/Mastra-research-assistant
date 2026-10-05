@@ -2,10 +2,8 @@ import { createTool } from '@mastra/core/tools';
 import { z } from 'zod';
 import { searchWikipedia } from '../../lib/wikipedia';
 
-// TODO(stage-2): the lookup tool is new in this stage
 export const lookupTool = createTool({
   id: 'lookup',
-  // TODO(stage-2): the description is what the model reads to decide whether to call this tool.
   description:
     'Search Wikipedia for facts about a topic. Use this before answering any research question. Returns titles, snippets and source URLs.',
   inputSchema: z.object({
