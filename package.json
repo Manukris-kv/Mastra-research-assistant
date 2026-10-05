@@ -1,13 +1,14 @@
 {
   "name": "research-assistant",
   "version": "1.0.0",
-  "description": "A general-purpose Mastra agent with a local workspace, shell tools, memory, task tracking, web access, and recurring schedules.",
+  "description": "Mastra tutorial: a research assistant with tools, memory, workflows and evals via LiteLLM",
   "main": "index.js",
   "private": true,
   "scripts": {
     "dev": "mastra dev",
     "build": "mastra build",
-    "start": "mastra start"
+    "start": "mastra start",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -20,13 +21,12 @@
     "@mastra/core": "1.74.0",
     "@mastra/duckdb": "1.12.1",
     "@mastra/libsql": "1.25.0",
-    "@mastra/memory": "1.35.0",
     "@mastra/observability": "1.18.3",
-    "zod": "^4.4.3"
+    "zod": "4.6.5"
   },
   "devDependencies": {
-    "@types/node": "latest",
+    "@types/node": "26.6.4",
     "mastra": "1.32.1",
-    "typescript": "^6.0.3"
+    "typescript": "6.0.3"
   }
 }
