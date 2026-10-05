@@ -22,7 +22,6 @@ const planStep = createStep({
   },
 });
 
-// TODO(stage-5): add this approval step (suspend, then resume with the human's answer).
 // Human-in-the-loop: the workflow SUSPENDS here until a person approves (or edits) the plan.
 const approvePlanStep = createStep({
   id: 'approve-plan',
@@ -84,7 +83,7 @@ export const researchWorkflow = createWorkflow({
   outputSchema: z.object({ summary: z.string() }),
 })
   .then(planStep)
-  .then(approvePlanStep) // TODO(stage-5): chain the approval step
+  .then(approvePlanStep)
   .then(gatherStep)
   .then(writeStep)
   .commit();
