@@ -9,12 +9,15 @@ import {
   SensitiveDataFilter,
 } from '@mastra/observability';
 import { researchAgent } from './agents/research-agent';
+import { researchWorkflow } from './workflows/research-workflow';
 
 export const mastra = new Mastra({
   bundler: {
     externals: ['@duckdb/node-bindings'],
   },
   agents: { researchAgent },
+  // TODO(stage-4): register the workflow
+  workflows: { researchWorkflow },
   storage: new MastraCompositeStore({
     id: 'composite-storage',
     default: new LibSQLStore({
