@@ -1,58 +1,28 @@
-# research-assistant
+# Research Assistant (Mastra + LiteLLM)
 
-Welcome to your new [Mastra](https://mastra.ai) project! We're excited to see what you build.
+Tutorial project built in stages, demoed entirely in **Mastra Studio**. `main` is the untouched output
+of `npx create-mastra@latest`. After that there are two kinds of branch:
 
-This starter provides you with a general-purpose Mastra agent that can research current information, manage multi-step tasks, work with local files, run approved shell commands, and create recurring schedules.
+- **`checkpoint-N`** is the **exercise** for stage N: everything up to stage N-1 is done, the stage-N code is
+  blanked out, and `// TODO(stage-N)` comments give hints. It compiles, so Studio runs even before you finish.
+- **`stage-N`** is the **answer** for that exercise (and the starting point for `checkpoint-(N+1)`'s work).
+  `stage-6` is the complete project.
 
-## Features
+| Exercise | Answer | You build | Try it in Studio |
+|---|---|---|---|
+| `checkpoint-1` | `stage-1` | The agent: write its instructions and register it (LiteLLM `model.ts` and the `lib/wikipedia.ts` helper are provided) | Agents → Research agent: ask about "solar energy" |
+| `checkpoint-2` | `stage-2` | The lookup tool's description and `execute` (schemas are given), registration, and the tool rules | Same prompt; open the trace and see the tool call |
+| `checkpoint-3` | `stage-3` | Memory | Ask "Make it shorter"; start a new chat (new thread) and it forgets |
+| `checkpoint-4` | `stage-4` | The gather step and the workflow chain (plan and write are given) | Workflows → research-workflow, input `{ "topic": "solar energy" }` |
+| `checkpoint-5` | `stage-5` | Human-in-the-loop: the `approve-plan` step and `requireApproval` | Workflow suspends at `approve-plan`; ask the agent to save a note and approve the tool call |
+| `checkpoint-6` | `stage-6` | A built-in scorer (answer relevancy) | Run the agent, then check Scorers |
 
-- A local `workspace/` for files and command execution (created under `src/mastra/public/workspace/` when running `mastra dev`)
-- Approval gates for file changes, deletions, and shell commands
-- Conversation memory, generated thread titles, and task tracking
-- Built-in web search and direct web page fetching
-- Recurring schedules that persist across restarts
-- Local libSQL storage and DuckDB observability, with optional Turso storage
-- A bundled Mastra skill that helps coding agents use current Mastra APIs
+Hints name the Mastra APIs to use. Stuck? Compare with the matching `stage-N` branch.
 
-## Get started
-
-Set your `OPENAI_API_KEY` in `.env` or in your environment, then run:
-
-```shell
-npm run dev
+## Setup
+```bash
+npm install
+cp .env.example .env   # LITELLM_BASE_URL (ends in /v1), LITELLM_API_KEY, LITELLM_MODEL
+npm run dev            # Studio at http://localhost:4111
 ```
-
-Open [http://localhost:4111](http://localhost:4111) in your browser to access [Mastra Studio](https://mastra.ai/docs/studio/overview).
-
-Select **Agent** in Mastra Studio and try one of these prompts:
-
-- `Get the weather forecast for Austin this weekend.`
-- `Create a landing page for a Japanese sakura festival.`
-- `Check the SPCX stock price now, then check it every minute.`
-
-The agent asks for approval before it changes files or runs commands. When it creates a schedule, it returns an ID that you can use to pause the schedule.
-
-## Workspace safety
-
-The local filesystem tools stay inside the `workspace/` directory, which resolves relative to the server's working directory (`src/mastra/public/workspace/` during `mastra dev`). Shell commands start in that directory, but `LocalSandbox` does not provide operating-system isolation by default. Review command approvals carefully, and do not expose this template through an unauthenticated public server.
-
-## Storage
-
-The default `file:./mastra.db` database stores agent memory, tasks, and schedules locally. To use Turso, set `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` in `.env`.
-
-Recurring schedules continue to use model tokens until you pause them. Ask the agent to pause a schedule with the ID returned by `start_schedule`.
-
-## Making it yours
-
-- Edit `src/mastra/agents/agent.ts` to change the model, instructions, memory, workspace, or approval policy.
-- Edit `src/mastra/tools/` to customize scheduling.
-- Edit `src/mastra/index.ts` to change storage and observability.
-- Add files or reusable skills under `src/mastra/public/workspace/` for the agent to use during `mastra dev`.
-
-## Learn more
-
-To learn more about Mastra, visit our [documentation](https://mastra.ai/docs/). If you're new to AI agents, check out our [course](https://mastra.ai/learn) and [YouTube videos](https://youtube.com/@mastra-ai). You can also join our [Discord](https://discord.gg/mastra-ai) community to get help and share your projects.
-
-## Deploy to the Mastra platform
-
-The [Mastra platform](https://projects.mastra.ai) provides two products for deploying and managing AI applications built with the Mastra framework. Learn more in the [Mastra platform documentation](https://mastra.ai/docs/mastra-platform/overview).
+The lookup tool queries the public Wikipedia API, so it needs internet access but no API key.
