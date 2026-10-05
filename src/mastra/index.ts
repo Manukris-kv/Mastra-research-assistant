@@ -14,7 +14,6 @@ export const mastra = new Mastra({
   bundler: {
     externals: ['@duckdb/node-bindings'],
   },
-  // TODO(stage-1): register the agent
   agents: { researchAgent },
   storage: new MastraCompositeStore({
     id: 'composite-storage',
