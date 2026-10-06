@@ -24,7 +24,12 @@ If the user asks you to save a note, use the save-note tool.
   model: llm,
   tools: { lookupTool, saveNoteTool },
   memory: new Memory({
-    options: { lastMessages: 10 },
+    options: { 
+      lastMessages: 10,
+      workingMemory: {
+        enabled: true,
+      }
+    },
   }),
   // TODO(stage-6): attach a built-in scorer: createAnswerRelevancyScorer({ model: llm }) from '@mastra/evals/scorers/prebuilt', sampling { type: 'ratio', rate: 1 }. Results appear under Scorers in Studio
   scorers: {
