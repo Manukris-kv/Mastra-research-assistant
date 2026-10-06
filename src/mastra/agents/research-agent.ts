@@ -23,6 +23,11 @@ Cite the source field. If it returns no results, say you have no information on 
   // TODO(stage-5): register saveNoteTool next to lookupTool
   tools: { lookupTool },
   memory: new Memory({
-    options: { lastMessages: 10 },
+    options: { 
+      lastMessages: 10,
+      workingMemory: {
+        enabled: true,
+      }
+    },
   }),
 });
