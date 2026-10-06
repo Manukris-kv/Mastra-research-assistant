@@ -42,7 +42,10 @@ const approvePlanStep = createStep({
     if (!resumeData.approved) {
       return bail({ summary: 'Research cancelled: the plan was rejected.' }) as never;
     }
-    return { topic: inputData.topic, questions: resumeData.questions ?? inputData.questions };
+    // Studio's resume form may send an empty list or blank lines when nothing was edited,
+    // so only use the edited questions if there is at least one non-empty one.
+    const edited = (resumeData.questions ?? []).map((q) => q.trim()).filter(Boolean);
+    return { topic: inputData.topic, questions: edited.length ? edited : inputData.questions };
   },
 });
 
