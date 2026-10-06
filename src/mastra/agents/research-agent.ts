@@ -19,5 +19,5 @@ Cite the source field. If it returns no results, say you have no information on 
   `,
   model: llm,
   tools: { lookupTool },
-  // TODO(stage-3): attach memory: import Memory from '@mastra/memory' and use new Memory({ options: { lastMessages: 10 } }); try other values
+  // TODO(stage-3): attach memory: import Memory from '@mastra/memory' and use new Memory({ options: { lastMessages: 10, workingMemory: { enabled: true } } }); try other values
 });
