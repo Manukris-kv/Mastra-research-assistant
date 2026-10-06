@@ -36,7 +36,8 @@ const approvePlanStep = createStep({
   execute: async ({ inputData, resumeData, suspend, bail }) => {
     // TODO(stage-5): 1) no resumeData yet: `return await suspend({ topic, questions })` to pause for a human.
     //   2) resumeData.approved is false: `return bail({ summary: '...' }) as never` to end the run early.
-    //   3) otherwise return the topic and `resumeData.questions ?? inputData.questions` (the human may have edited them).
+    //   3) otherwise return the topic and the edited questions. Studio may send [] or blank strings when nothing was edited,
+    //      so trim and filter them, and fall back to inputData.questions if none are left.
     return { topic: inputData.topic, questions: inputData.questions };
   },
 });
