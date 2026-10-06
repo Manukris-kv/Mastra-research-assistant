@@ -1,7 +1,20 @@
 import { createTool } from '@mastra/core/tools';
 import { z } from 'zod';
+import { existsSync } from 'node:fs';
 import { mkdir, appendFile } from 'node:fs/promises';
 import path from 'node:path';
+
+// `mastra dev` runs from a different working directory (src/mastra/public), so find the project
+// root by walking up until we see src/mastra. Notes then always land in <project root>/notes/.
+function findProjectRoot(start = process.cwd()): string {
+  let dir = start;
+  while (!existsSync(path.join(dir, 'src', 'mastra'))) {
+    const parent = path.dirname(dir);
+    if (parent === dir) return start;
+    dir = parent;
+  }
+  return dir;
+}
 
 // Optional stretch goal: a tool with a real side effect (writes to a file).
 export const saveNoteTool = createTool({
@@ -15,7 +28,7 @@ export const saveNoteTool = createTool({
   }),
   outputSchema: z.object({ saved: z.boolean(), file: z.string() }),
   execute: async ({ topic, note }) => {
-    const dir = path.resolve(process.cwd(), 'notes');
+    const dir = path.join(findProjectRoot(), 'notes');
     await mkdir(dir, { recursive: true });
     const file = path.join(dir, 'notes.md');
     await appendFile(file, `## ${topic}\n${note}\n\n`);
